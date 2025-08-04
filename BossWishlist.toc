@@ -1,6 +1,6 @@
 ## Interface: 100100
 ## Title: Boss Wishlist
-## Notes: Libfreies Addon mit Boss Wunschliste, Minimap-Button, Slash-Commands
+## Notes: Addon mit Wunschliste, Minimap Button und Slash Command
 ## SavedVariables: BossWishlistDB
 core.lua
 data.lua
