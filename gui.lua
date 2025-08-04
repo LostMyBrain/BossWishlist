@@ -1,63 +1,32 @@
-local BW = BossWishlist
-local playerName = UnitName("player") .. " - " .. GetRealmName()
+local ns = ...
 
-function BW:CreateMainUI()
-    if self.mainFrame then return end
+local frame = CreateFrame("Frame", "BossWishlistFrame", UIParent, "BasicFrameTemplateWithInset")
+frame:SetSize(300, 400)
+frame:SetPoint("CENTER")
+frame:Hide()
 
-    local f = CreateFrame("Frame", "BossWishlistUI", UIParent, "BackdropTemplate")
-    f:SetSize(400, 300)
-    f:SetPoint("CENTER")
-    f:SetBackdrop({ bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background" })
-    f:SetMovable(true)
-    f:EnableMouse(true)
-    f:RegisterForDrag("LeftButton")
-    f:SetScript("OnDragStart", f.StartMoving)
-    f:SetScript("OnDragStop", function(self)
-        self:StopMovingOrSizing()
-        local _, _, _, x, y = self:GetPoint()
-        BossWishlistDB.ui.x = x
-        BossWishlistDB.ui.y = y
-    end)
+frame.title = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+frame.title:SetPoint("LEFT", frame.TitleBg, "LEFT", 5, 0)
+frame.title:SetText("Boss Wishlist")
 
-    local title = f:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
-    title:SetPoint("TOP", 0, -10)
-    title:SetText("Boss Wishlist")
+-- Liste der Wunschitems
+frame.list = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+frame.list:SetPoint("TOPLEFT", 10, -40)
+frame.list:SetJustifyH("LEFT")
+frame.list:SetWidth(280)
 
-    local inputBoss = CreateFrame("EditBox", nil, f, "InputBoxTemplate")
-    inputBoss:SetSize(200, 20)
-    inputBoss:SetPoint("TOPLEFT", 20, -40)
-    inputBoss:SetAutoFocus(false)
-    inputBoss:SetText("Bossname")
-
-    local inputItem = CreateFrame("EditBox", nil, f, "InputBoxTemplate")
-    inputItem:SetSize(100, 20)
-    inputItem:SetPoint("TOPLEFT", inputBoss, "BOTTOMLEFT", 0, -10)
-    inputItem:SetText("ItemID")
-
-    local addBtn = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
-    addBtn:SetSize(100, 22)
-    addBtn:SetPoint("TOPLEFT", inputItem, "BOTTOMLEFT", 0, -10)
-    addBtn:SetText("Hinzufügen")
-
-    addBtn:SetScript("OnClick", function()
-        local boss = inputBoss:GetText()
-        local itemID = tonumber(inputItem:GetText())
-        if boss and itemID then
-            BossWishlistDB.charData[playerName][boss] = BossWishlistDB.charData[playerName][boss] or {}
-            table.insert(BossWishlistDB.charData[playerName][boss], itemID)
-            BW:Print("Item " .. itemID .. " zu " .. boss .. " hinzugefügt.")
+local function UpdateList()
+    local text = ""
+    for boss, items in pairs(BossWishlist_Data.bosses) do
+        text = text .. "|cff00ff00Boss:|r " .. boss .. "\n"
+        for _, item in ipairs(items) do
+            text = text .. string.format("  - %s (Dropchance: %.1f%%)\n", item.name, item.dropRate)
         end
-    end)
-
-    self.mainFrame = f
-end
-
-function BW:ToggleUI()
-    if not self.mainFrame then self:CreateMainUI() end
-    if self.mainFrame:IsShown() then
-        self.mainFrame:Hide()
-    else
-        self.mainFrame:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", BossWishlistDB.ui.x, BossWishlistDB.ui.y)
-        self.mainFrame:Show()
+        text = text .. "\n"
     end
+    frame.list:SetText(text)
 end
+
+frame:SetScript("OnShow", UpdateList)
+
+ns.guiFrame = frame
