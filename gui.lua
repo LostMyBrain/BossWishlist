@@ -1,4 +1,4 @@
-local ns = ...
+local addonName, ns = ...
 
 local frame = CreateFrame("Frame", "BossWishlistFrame", UIParent, "BasicFrameTemplateWithInset")
 frame:SetSize(300, 400)
@@ -9,7 +9,6 @@ frame.title = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
 frame.title:SetPoint("LEFT", frame.TitleBg, "LEFT", 5, 0)
 frame.title:SetText("Boss Wishlist")
 
--- Liste der Wunschitems
 frame.list = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 frame.list:SetPoint("TOPLEFT", 10, -40)
 frame.list:SetJustifyH("LEFT")
