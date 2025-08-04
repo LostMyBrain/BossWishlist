@@ -1,12 +1,12 @@
-BossWishlist = BossWishlist or {}
-
--- Speicherstruktur: Char-spezifisch
-local playerName = UnitName("player") .. " - " .. GetRealmName()
-BossWishlistDB = BossWishlistDB or {}
-BossWishlistDB.charData = BossWishlistDB.charData or {}
-BossWishlistDB.charData[playerName] = BossWishlistDB.charData[playerName] or {}
-
-BossWishlist.defaultData = {
-    minimap = { hide = false, pos = 220 },
-    ui = { x = 100, y = 100 }
+BossWishlist_Data = {
+    bosses = {
+        ["Onyxia"] = {
+            { id = 18422, name = "Schild von Onyxia", dropRate = 18.0 },
+            { id = 17110, name = "Feuerkralle", dropRate = 15.0 },
+        },
+        ["Ragnaros"] = {
+            { id = 17182, name = "Arthas' Frostmourne", dropRate = 4.5 },
+            { id = 17105, name = "Sulfuras, Hand von Ragnaros", dropRate = 7.0 },
+        },
+    }
 }
