@@ -1,0 +1,15 @@
+## Interface: 90505
+## Title: Boss Wishlist
+## Notes: Wunschliste für Boss-Drops mit Tooltip & GUI
+## Author: DeinName
+## Version: 1.1
+## SavedVariables: BossWishlistDB
+
+libs\LibStub\LibStub.lua
+libs\LibDBIcon-1.0\LibDBIcon-1.0.lua
+
+data.lua
+core.lua
+gui.lua
+minimap.lua
+wowhead_drops.lua
