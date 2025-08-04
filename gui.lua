@@ -1,5 +1,7 @@
 local addonName, ns = ...
 
+print("BossWishlist GUI geladen")
+
 local frame = CreateFrame("Frame", "BossWishlistFrame", UIParent, "BasicFrameTemplateWithInset")
 frame:SetSize(300, 400)
 frame:SetPoint("CENTER")
@@ -29,3 +31,5 @@ end
 frame:SetScript("OnShow", UpdateList)
 
 ns.guiFrame = frame
+
+print("BossWishlist Frame gesetzt")
