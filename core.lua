@@ -2,6 +2,18 @@ local addonName, ns = ...
 
 BossWishlistDB = BossWishlistDB or {}
 
+local function ToggleWishlist()
+    if ns.guiFrame and ns.guiFrame:IsShown() then
+        ns.guiFrame:Hide()
+        print("BossWishlist: Wunschliste versteckt.")
+    elseif ns.guiFrame then
+        ns.guiFrame:Show()
+        print("BossWishlist: Wunschliste angezeigt.")
+    else
+        print("BossWishlist: GUI nicht geladen!")
+    end
+end
+
 local frame = CreateFrame("Frame")
 frame:RegisterEvent("ADDON_LOADED")
 frame:SetScript("OnEvent", function(self, event, name)
@@ -21,32 +33,21 @@ frame:SetScript("OnEvent", function(self, event, name)
     end
 end)
 
-local function ToggleWishlist()
-    if ns.guiFrame and ns.guiFrame:IsShown() then
-        ns.guiFrame:Hide()
-        print("BossWishlist: Wunschliste versteckt.")
-    elseif ns.guiFrame then
-        ns.guiFrame:Show()
-        print("BossWishlist: Wunschliste angezeigt.")
-    else
-        print("BossWishlist: GUI nicht geladen!")
-    end
-end
-
 SLASH_BOSSWISHLIST1 = "/wishlist"
 SLASH_BOSSWISHLIST2 = "/bw"
 SlashCmdList["BOSSWISHLIST"] = function(msg)
     msg = msg:lower():gsub("^%s*(.-)%s*$", "%1")
 
-    if msg == "help" or msg == "" then
+    if msg == "" or msg == "help" then
         print("|cff00ff00BossWishlist Befehle:")
         print("|cff00ff00/wishlist oder /bw - Wunschliste öffnen oder schließen")
-    else
-        ToggleWishlist()
+        return
     end
+
+    ToggleWishlist()
 end
 
--- Test Befehl, Fenster direkt zeigen (im Chat /testwl)
+-- Testbefehl zum direkten Öffnen der Wunschliste (im Chat /testwl eingeben)
 SLASH_TESTWISHLIST1 = "/testwl"
 SlashCmdList["TESTWISHLIST"] = function()
     if ns.guiFrame then
