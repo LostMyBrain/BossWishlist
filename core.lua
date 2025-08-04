@@ -1,16 +1,13 @@
 local addonName, ns = ...
 
--- Initialisiere SavedVariables
 BossWishlistDB = BossWishlistDB or {}
 
--- Eventframe zum Laden des Addons
 local frame = CreateFrame("Frame")
 frame:RegisterEvent("ADDON_LOADED")
 frame:SetScript("OnEvent", function(self, event, name)
     if name == addonName then
         print("|cff00ff00BossWishlist geladen!|r")
 
-        -- Minimap Button Position laden, falls gespeichert
         if BossWishlistDB.minimap and ns.minimapButton then
             ns.minimapButton:ClearAllPoints()
             ns.minimapButton:SetPoint(
@@ -24,7 +21,6 @@ frame:SetScript("OnEvent", function(self, event, name)
     end
 end)
 
--- Slash Command Funktion zum Öffnen/Schließen der Wunschliste
 local function ToggleWishlist()
     if ns.guiFrame and ns.guiFrame:IsShown() then
         ns.guiFrame:Hide()
@@ -37,11 +33,15 @@ local function ToggleWishlist()
     end
 end
 
--- Slash-Commands registrieren
 SLASH_BOSSWISHLIST1 = "/wishlist"
 SLASH_BOSSWISHLIST2 = "/bw"
 SlashCmdList["BOSSWISHLIST"] = function(msg)
-    msg = msg:lower():gsub("^%s*(.-)%s*$", "%1") -- trim & lowercase
+    msg = msg:lower():gsub("^%s*(.-)%s*$", "%1")
 
     if msg == "help" or msg == "" then
-        pri
+        print("|cff00ff00BossWishlist Befehle:")
+        print("|cff00ff00/wishlist oder /bw - Wunschliste öffnen oder schließen")
+    else
+        ToggleWishlist()
+    end
+end
