@@ -45,3 +45,14 @@ SlashCmdList["BOSSWISHLIST"] = function(msg)
         ToggleWishlist()
     end
 end
+
+-- Test Befehl, Fenster direkt zeigen (im Chat /testwl)
+SLASH_TESTWISHLIST1 = "/testwl"
+SlashCmdList["TESTWISHLIST"] = function()
+    if ns.guiFrame then
+        ns.guiFrame:Show()
+        print("Test: Wunschliste-Fenster wird angezeigt")
+    else
+        print("Test: ns.guiFrame ist nil!")
+    end
+end
