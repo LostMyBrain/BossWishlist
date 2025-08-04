@@ -1,3 +1,5 @@
+local addonName, ns = ...
+
 BossWishlist_Data = {
     bosses = {
         ["Onyxia"] = {
