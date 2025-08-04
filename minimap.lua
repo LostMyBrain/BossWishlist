@@ -1,15 +1,29 @@
-local BW = BossWishlist
-local LDB = LibStub("LibDataBroker-1.1"):NewDataObject("BossWishlist", {
-    type = "data source",
-    text = "Wishlist",
-    icon = "Interface\\Icons\\INV_Misc_Listicon",
-    OnClick = function() BW:ToggleUI() end,
-    OnTooltipShow = function(tt)
-        tt:AddLine("Boss Wishlist")
-        tt:AddLine("Klicken zum Öffnen")
-    end
-})
+local ns = ...
 
-function BW:InitMinimap()
-    LibStub("LibDBIcon-1.0"):Register("BossWishlist", LDB, BossWishlistDB.minimap)
-end
+local button = CreateFrame("Button", "BossWishlistMinimapButton", Minimap)
+button:SetSize(32, 32)
+button:SetFrameStrata("MEDIUM")
+button:SetPoint("TOPLEFT", Minimap, "TOPLEFT", 52, -52)
+
+button.texture = button:CreateTexture(nil, "BACKGROUND")
+button.texture:SetAllPoints()
+button.texture:SetTexture("Interface\\Icons\\INV_Misc_Listicon")
+
+button:SetMovable(true)
+button:RegisterForDrag("LeftButton")
+button:SetScript("OnDragStart", function(self) self:StartMoving() end)
+button:SetScript("OnDragStop", function(self)
+    self:StopMovingOrSizing()
+    local point, relativeTo, relativePoint, xOfs, yOfs = self:GetPoint()
+    BossWishlistDB.minimap = {point = point, x = xOfs, y = yOfs}
+end)
+
+button:SetScript("OnClick", function()
+    if ns.guiFrame:IsShown() then
+        ns.guiFrame:Hide()
+    else
+        ns.guiFrame:Show()
+    end
+end)
+
+ns.minimapButton = button
